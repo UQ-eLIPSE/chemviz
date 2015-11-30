@@ -1,0 +1,45 @@
+<!doctype html>
+<script src="js/Molecules.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/TorusGeometry.js"></script>
+<script src="js/OrbitControls.js"></script>
+
+<body>
+    <div style="padding:10px; float:left;">
+        <div style="padding:10px">
+            <label>Select layout: </label>
+            <select oninput="updateMolecule(this.value)">
+                <option value="oct">Octahedral</option>
+                <option value="tetra">Tetrahedral</option>
+                <option value="square">Square Planar</option>
+            </select>
+
+        </div>
+        <div>
+            <button type="button" style="float: left; width: 200px" onClick="toggleCircles()">Toggle Ligands</button>
+        </div>
+        <div>
+            <input id="slider" style="float: left; width: 200px; height: 50px" disabled type="range" min="500" max="1500" step="20" value="1500" oninput="updateCircles(this.value)">
+        </div>
+        <div>
+            <button type="button" style="float: left; width: 200px" onClick="resetView()">Reset View</button>
+        </div>
+    </div>
+
+    <div style="float:right">
+        <div id="buttons">
+            <button id="0" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('0', 'z^2')">d<sub>z<sup>2</sup></sub></button>
+            <button id="1" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('1', 'x^2 - y^2')">d<sub>x<sup>2</sup> - y<sup>2</sup></sub></button>
+            <button id="2" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('2', 'xy')">d<sub>xy</sub></button>
+            <button id="3" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('3', 'yz')">d<sub>yz</sub></button>
+            <button id="4" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('4', 'xz')">d<sub>xz</sub></button>
+        </div>
+        <div id="canvasDiv">
+            <canvas id="canvas" width="514" height="100" style="border:1px solid #000000;">
+        </div>
+    </div>
+</body>
+
+<script src="js/MoleculeRenderer.js"></script>
+<script src="js/CircleDrawer.js"></script>
+<script src="js/CanvasGrapher.js"></script>
