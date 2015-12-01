@@ -7,13 +7,13 @@
 
 // The y-coords of the graph
 // By default, use the oct layout
-var points = deepCopy(data["ligands"][0]["points"]);
-var curPoints = data["ligands"][0]["points"];
+var points = deepCopy(getOrbitalByName("oct")["points"]);
+var curPoints = getOrbitalByName("oct")["points"];
 
 // The upper limit of the range
-var upperRange = 4000;
+var upperRange = document.getElementById("slider").max;
 // The lower limit of the range
-var lowerRange = 1000;
+var lowerRange = document.getElementById("slider").min;
 
 /**
  * Updates the molecule static image
@@ -93,14 +93,7 @@ function movePoints(offset) {
  * Updates the points on the graph for the current molecule type
  */
 function updatePoints() {
-    var lData = null;
-    var ligFull = data["ligands"];
-    for (i = 0; i < ligFull.length; i++) {
-        // Find the corrent molecule (oct, tetra..)
-        if (ligFull[i]["name"] == moleculeType) {
-            lData = ligFull[i];
-        }
-    }
+    var lData = getOrbitalByName(moleculeType);
     points = deepCopy(lData["points"]);
     curPoints = lData["points"];
 }
@@ -114,4 +107,20 @@ function updatePos(val, pos) {
     var actRange = range/100;
 
     points[pos] = (val - lowerRange) / actRange;
+}
+
+/**
+ * Retrieves an orbital with the given name
+ * from the data array
+ */
+function getOrbitalByName(name) {
+    var ligData = null;
+    var ligFull = data["ligands"];
+    for (i = 0; i < ligFull.length; i++) {
+        if (ligFull[i]["name"] == name) {
+            ligData = ligFull[i];
+        }
+    }
+
+    return ligData;
 }
