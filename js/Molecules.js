@@ -5,7 +5,7 @@
  */
 
 /*
- * Stores all data relating to the molecules
+ * Stores all data relating to the molecule orbitals and ligants
  */
 var data = {
     "orbital": [
