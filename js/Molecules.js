@@ -17,9 +17,9 @@ var data = {
     ],
 
     "ligands": [
-        {"name": "oct",     "points": [30, 70, 30, 70, 30]},
-        {"name": "tetra",   "points": [70, 30, 70, 30, 70]},
-        {"name": "square",  "points": [30, 70, 50, 20, 20]}
+        {"name": "oct",     "points": [70, 70, 50, 50, 50]},
+        {"name": "tetra",   "points": [50, 50, 70, 70, 70]},
+        {"name": "square",  "points": [40, 80, 60, 20, 20]}
     ]
 
 };

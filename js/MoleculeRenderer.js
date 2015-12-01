@@ -6,6 +6,9 @@
 
 var scene, camera, renderer, model, axes;
 
+// Store the text meshs here
+var textMeshs = [];
+
 // The type of the molecule
 var moleculeType = "oct";
 
@@ -64,19 +67,19 @@ function enableOctStates() {
  * Updates which orbitals are enabled
  */
 function updateMolecule(value) {
+
+    if (value == "oct") {
+        updateImage("img/oct.png");
+    } else if (value == "tetra") {
+        updateImage("img/tetra.png");
+    } else if (value == "square") {
+        updateImage("img/square.png");
+    }
+
     moleculeType = value;
     updatePoints();
     plotPoints();
     redrawCircles(100);
-
-    // Change the enabled and disabled states
-    if (moleculeType == "oct") {
-        enableOctStates();
-    } else if (moleculeType == "square") {
-        enableSquareStates();
-    } else if (moleculeType == "tetra") {
-        // TODO: Handle these states
-    }
 
     // remove all existing orbitals
     for (key in orbitals) {
@@ -114,9 +117,8 @@ function init() {
     });
 
     // Set the background colour
-    renderer.setClearColor( 0x333F47, 0);
+    renderer.setClearColor( 0xFFFFFF, 1);
     create_light(-1000, 1000, 1000);
-    create_light(2000, -1000, -1000);
     create_light(1000, -1000, -1000);
     create_light(1000, 1000, 1000);
 
@@ -137,6 +139,7 @@ function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
     controls.update();
+    updateText(); 
 }
 
 /**
@@ -155,6 +158,11 @@ function create_light(x, y, z) {
 function buildAxes(length) {
     var axes = new THREE.Object3D();
     var origin = new THREE.Vector3(0, 0, 0);
+
+    createAxeLabel(1000, 40, 0, "Y", 0xFF0000);
+    createAxeLabel(40, 1000, 40, "Z", 0x00FF00);
+    createAxeLabel(0, 40, -1000, "X", 0x0000FF);
+    
 
     axes.add( drawLine( origin, new THREE.Vector3( length, 0, 0 ), 0xFF0000) );
     axes.add( drawLine( origin, new THREE.Vector3( -length, 0, 0 ), 0xFF0000) );
@@ -235,6 +243,7 @@ function lookupAndCreate(id, name) {
     var obj = null;
     var dArr = data["orbital"];
     for (i = 0; i < dArr.length; i++) {
+        // Check if the names match and the orbital is enabled
         if (dArr[i]["name"] == name && dArr[i]["enabled"] == true) {
             obj = dArr[i];
         }
@@ -300,19 +309,21 @@ function createOrbitalAndTorus(key, x, y, z, hex) {
         var obj = new THREE.Object3D();
         var colour = Number(hex);
 
-        // Blue orbitals
+        var mOffset = 350;
+
+        // The orbitals
         var end = createSphere(colour, 1);
-        moveShapeRel(end, 0, -500, 0);
+        moveShapeRel(end, 0, -mOffset, 0);
         scaleShape(end, 1, 1.5, 1);
         obj.add(end);
 
         var end = createSphere(colour, 1);
-        moveShapeRel(end, 0, 500, 0);
+        moveShapeRel(end, 0, mOffset, 0);
         scaleShape(end, 1, 1.5, 1);
         obj.add(end);
 
         // The torus
-        var torusGeom = new THREE.TorusGeometry(400, 100, 16, 100);
+        var torusGeom = new THREE.TorusGeometry(300, 100, 16, 100);
         var material = new THREE.MeshBasicMaterial({color: colour});
         var torus = new THREE.Mesh(torusGeom, material);
         // This is so the torus is in the initial position we want
@@ -349,23 +360,25 @@ function orbitalDraw(hex) {
     var obj = new THREE.Object3D();
     var colour = Number(hex);
 
+    var mOffset = 350;
+
     var end = createSphere(colour, 1);
-    moveShapeRel(end, 500, 0, 0);
+    moveShapeRel(end, mOffset, 0, 0);
     scaleShape(end, 1.5, 1, 1);
     obj.add(end);
 
     var end = createSphere(colour, 1);
-    moveShapeRel(end, -500, 0, 0);
+    moveShapeRel(end, -mOffset, 0, 0);
     scaleShape(end, 1.5, 1, 1);
     obj.add(end);
 
     var end = createSphere(colour, 1);
-    moveShapeRel(end, 0, 0, 500);
+    moveShapeRel(end, 0, 0, mOffset);
     scaleShape(end, 1, 1, 1.5);
     obj.add(end);
 
     var end = createSphere(colour, 1);
-    moveShapeRel(end, 0, 0, -500);
+    moveShapeRel(end, 0, 0, -mOffset);
     scaleShape(end, 1, 1, 1.5);
     obj.add(end);
 
@@ -379,5 +392,44 @@ function resetView() {
     camera.position.set(2000, 2000, -2000);
 }
 
+/**
+ * Creates an axe label at the given position with the given colour
+ * Automicatically adds the text to the scene and the text array
+ */
+function createAxeLabel(x, y, z, text, color) {
+
+    var textGeo = new THREE.TextGeometry(text, {
+        size: 50,
+        height: 20,
+        font: "helvetiker",
+        bevelEnabled: false
+    });
+
+    textGeo.computeBoundingBox();
+    textGeo.computeVertexNormals();
+
+    var material = new THREE.MeshBasicMaterial({color: color});
+    var textMesh = new THREE.Mesh(textGeo, material);
+
+    textMesh.position.x = x;
+    textMesh.position.y = y;
+    textMesh.position.z = z;
+    
+    textMesh.lookAt(camera.position);
+    scene.add(textMesh);
+
+    textMeshs.push(textMesh);
+}
+
+/**
+ * Updates the axe labels to ensure they are always facing the camera
+ */
+function updateText() {
+    for (i = 0; i < textMeshs.length; i++) {
+        textMeshs[i].lookAt(camera.position);
+    }
+}
+
+// Run the main functions
 init();
 animate();

@@ -3,6 +3,9 @@
 <script src="js/three.min.js"></script>
 <script src="js/TorusGeometry.js"></script>
 <script src="js/OrbitControls.js"></script>
+<script src="js/TextGeometry.js"></script>
+<script src="js/FontUtils.js"></script>
+<script src="js/fonts/helvetiker_regular.typeface.js"></script>
 
 <body>
     <div style="padding:10px; float:left;">
@@ -19,12 +22,13 @@
             <button type="button" style="float: left; width: 200px" onClick="toggleCircles()">Toggle Ligands</button>
         </div>
         <div>
-            <input id="slider" style="float: left; width: 200px; height: 50px" disabled type="range" min="500" max="1500" step="20" value="1500" oninput="updateCircles(this.value)">
+            <input id="slider" style="float: left; width: 200px; height: 50px" disabled type="range" min="1000" max="4000" step="20" value="3000" oninput="updateCircles(this.value)">
         </div>
         <div>
             <button type="button" style="float: left; width: 200px" onClick="resetView()">Reset View</button>
         </div>
     </div>
+
 
     <div style="float:right">
         <div id="buttons">
@@ -37,6 +41,10 @@
         <div id="canvasDiv">
             <canvas id="canvas" width="514" height="100" style="border:1px solid #000000;">
         </div>
+    </div>
+
+    <div style="float:right">
+        <img id="img" src="img/oct.png" style="height:120px; width:auto; padding:10px"> 
     </div>
 </body>
 

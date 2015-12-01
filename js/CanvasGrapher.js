@@ -6,11 +6,29 @@
  */
 
 // The y-coords of the graph
-var points = [30, 70, 30, 70, 30];
+// By default, use the oct layout
+var points = deepCopy(data["ligands"][0]["points"]);
+var curPoints = data["ligands"][0]["points"];
+
 // The upper limit of the range
-var upperRange = 1500;
+var upperRange = 4000;
 // The lower limit of the range
-var lowerRange = 500;
+var lowerRange = 1000;
+
+/**
+ * Updates the molecule static image
+ */
+function updateImage(filename) {
+    var img = document.getElementById("img");
+    img.src = filename;
+}
+
+/**
+ * Deep copies an array
+ */
+function deepCopy(inArr) {
+    return inArr.concat();
+}
 
 /**
  * Clears the canvas of all objects
@@ -43,6 +61,35 @@ function plotPoints() {
 }
 
 /**
+ * Handles moving the points when the user uses the slide bar
+ */
+function movePoints(offset) {
+    if (moleculeType == "oct") {
+        // Apply transformations for octahedral
+        points[0] = curPoints[0] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
+        points[1] = curPoints[1] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
+        points[2] = curPoints[2] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
+        points[3] = curPoints[3] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
+        points[4] = curPoints[4] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
+    } else if (moleculeType == "square") {
+        // Apply transformations for square planar 
+        points[0] = curPoints[0] + (offset - lowerRange) / (upperRange - lowerRange) * 10;
+        points[1] = curPoints[1] - (offset - lowerRange) / (upperRange - lowerRange) * 30;
+        points[2] = curPoints[2] - (offset - lowerRange) / (upperRange - lowerRange) * 10;
+        points[3] = curPoints[3] + (offset - lowerRange) / (upperRange - lowerRange) * 30;
+        points[4] = curPoints[4] + (offset - lowerRange) / (upperRange - lowerRange) * 30;
+    } else if (moleculeType == "tetra") {
+        // Apply transformations for tetrahedral
+        points[0] = curPoints[0] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
+        points[1] = curPoints[1] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
+        points[2] = curPoints[2] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
+        points[3] = curPoints[3] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
+        points[4] = curPoints[4] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
+    }
+    plotPoints();
+}
+
+/**
  * Updates the points on the graph for the current molecule type
  */
 function updatePoints() {
@@ -54,7 +101,8 @@ function updatePoints() {
             lData = ligFull[i];
         }
     }
-    points = lData["points"];
+    points = deepCopy(lData["points"]);
+    curPoints = lData["points"];
 }
 
 /**

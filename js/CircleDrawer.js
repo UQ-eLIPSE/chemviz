@@ -55,6 +55,8 @@ function updateCircles(offset) {
         } else if (moleculeType == "tetra") {
             updateTetra(offset);
         }
+        
+        movePoints(offset);
     } else {
         clearCanvas();
     }
@@ -192,16 +194,21 @@ function createSquare(offset) {
 function createTetra(offset) {
     var circles = new THREE.Object3D();
     var size = 50;
-    // Scale it down a little
-    var offset = offset / 3;
-
+   
     circles.add(createSingleCircle(offset, offset, offset, size, "top"));
     circles.add(createSingleCircle(-offset, -offset, offset, size, "s2"));
     circles.add(createSingleCircle(-offset, offset, -offset, size, "s3"));
     circles.add(createSingleCircle(offset, -offset, -offset, size, "s4"));
 
-    circles.rotateX;
-
+    /* May be needed depending on implementation
+    angles = computeAngles(offset);
+    var x = angles[0];
+    var z = angles[1];
+    circles.add(createSingleCircle(0, offset, 0, size, "top"));
+    circles.add(createSingleCircle(offset, -offset/2, 0, size, "s2"));
+    circles.add(createSingleCircle(-x, -offset/2, z, size, "s3"));
+    circles.add(createSingleCircle(-x, -offset/2, -z, size, "s4"));
+    */
     return circles;
 }
 
@@ -217,4 +224,28 @@ function redrawCircles(offset) {
         updateCircles(document.getElementById("slider").value);
         scene.add(circles);
     }
+}
+
+/**
+ * Converts degrees to radians
+ */
+function toRadians(degs) {
+    return degs * Math.PI / 180;
+}
+
+/**
+ * Computes the angles for the tetrahedral ligants
+ * Returns a tuple that contains the x and z coord
+ */
+function computeAngles(x) {
+    // Scale the shape down
+    x = x / 2;
+    var z = Math.tan(toRadians(60)) * x;
+
+    var out = []
+    
+    out.push(Math.abs(x));
+    out.push(Math.abs(z));
+
+    return out;
 }
