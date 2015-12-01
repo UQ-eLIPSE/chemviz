@@ -9,11 +9,11 @@
  */
 var data = {
     "orbital": [
-        {"name": "z^2",         "x": 0,     "y": 0,     "z": 0,     "isTorus": true,  "enabled": true},
-        {"name": "x^2 - y^2",   "x": 0,     "y": 0,     "z": 0,     "isTorus": false, "enabled": true},
-        {"name": "xy",          "x": 0,     "y": 0.7853,"z": 0,     "isTorus": false, "enabled": true},
-        {"name": "yz",          "x": 1.56,  "y": 0.7853,"z": 0,     "isTorus": false, "enabled": true},
-        {"name": "xz",          "x": 0.7853,"y": 0,     "z": 1.56,  "isTorus": false, "enabled": true}
+        {"name": "z^2",         "x": 0,     "y": 0,     "z": 0,     "isTorus": true},
+        {"name": "x^2 - y^2",   "x": 0,     "y": 0,     "z": 0,     "isTorus": false},
+        {"name": "xy",          "x": 0,     "y": 0.7853,"z": 0,     "isTorus": false},
+        {"name": "yz",          "x": 1.56,  "y": 0.7853,"z": 0,     "isTorus": false},
+        {"name": "xz",          "x": 0.7853,"y": 0,     "z": 1.56,  "isTorus": false}
     ],
 
     "ligands": [

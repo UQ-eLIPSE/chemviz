@@ -27,43 +27,6 @@ function setButtonColours(upper) {
 }
 
 /**
- * Sets the state of the given orbital
- * @param name A string representing the name of the orbital
- * @param state A boolean representing if the orbital is enabled or not
- */
-function setOrbitalState(name, state) {
-    var dArr = data["orbital"];
-    for (i = 0; i < dArr.length; i++) {
-        if (dArr[i]["name"] == name) {
-            dArr[i]["enabled"] = state;        
-        }
-    }
-}
-
-/**
- * Enable the orbitals for the square state
- */
-function enableSquareStates() {
-    setOrbitalState("z^2", false);
-    setOrbitalState("x^2 - y^2", true);
-    setOrbitalState("xy", true);
-    setOrbitalState("yz", false);
-    setOrbitalState("xz", false);
-}
-
-/**
- * Enable the orbitals for the octagonal molecule
- */
-function enableOctStates() {
-    setOrbitalState("z^2", true);
-    setOrbitalState("x^2 - y^2", true);
-    setOrbitalState("xy", true);
-    setOrbitalState("yz", true);
-    setOrbitalState("xz", true);
-}
-
-
-/**
  * Updates which orbitals are enabled
  */
 function updateMolecule(value) {
@@ -85,7 +48,6 @@ function updateMolecule(value) {
     for (key in orbitals) {
         scene.remove(orbitals[key]);
     }
-
     orbitals = {};
 }
 
@@ -243,8 +205,8 @@ function lookupAndCreate(id, name) {
     var obj = null;
     var dArr = data["orbital"];
     for (i = 0; i < dArr.length; i++) {
-        // Check if the names match and the orbital is enabled
-        if (dArr[i]["name"] == name && dArr[i]["enabled"] == true) {
+        // Check if the names match
+        if (dArr[i]["name"] == name) {
             obj = dArr[i];
         }
     }
