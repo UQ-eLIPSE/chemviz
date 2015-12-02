@@ -41,6 +41,25 @@ function clearCanvas() {
 }
 
 /**
+ * Checks if the ligant energy fields should be plotted
+ * returns true if the energy fields exist
+ * returns false if there are not enough ligants
+ */
+function checkIfPlottable() {
+    var count = 0;
+
+    for (x in orbitals) {
+        count++;
+    }
+
+    if (count >= 5) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
  * Plots the points onto the graph
  */
 function plotPoints() {
@@ -57,6 +76,8 @@ function plotPoints() {
             ctx.lineTo(interval * i + 3 * sub, canvas.height - points[i]);
             ctx.stroke();
         }
+    } else {
+        clearCanvas();
     }
 }
 
@@ -64,6 +85,13 @@ function plotPoints() {
  * Handles moving the points when the user uses the slide bar
  */
 function movePoints(offset) {
+    // TODO: Remove this if not required
+    /*
+    if (checkIfPlottable() == false) {
+        // This represents the low energy state
+        points = [10, 10, 10, 10, 10];
+    } else 
+    */
     if (moleculeType == "oct") {
         // Apply transformations for octahedral
         points[0] = curPoints[0] - (offset - lowerRange) / (upperRange - lowerRange) * 60;

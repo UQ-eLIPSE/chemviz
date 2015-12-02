@@ -225,6 +225,18 @@ function lookupAndCreate(id, name) {
     } else {
         console.log("Could not retrieve orbital");
     }
+
+    movePoints(Number(document.getElementById("slider").value));
+
+    var but = document.getElementById("toggleField");
+    if (checkIfPlottable()) {
+        but.disabled = false;
+    } else {
+        but.disabled = true;
+        if (circlesEnabled) {
+            toggleCircles();
+        }
+    }
 }
 
 /*
