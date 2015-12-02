@@ -9,7 +9,7 @@ var scene, camera, renderer, model, axes;
 // Store the text meshs here
 var textMeshs = [];
 
-// The type of the molecule
+// The type of the currently selected molecule
 var moleculeType = "oct";
 
 // Stores a list of orbitals currently in the scene
@@ -56,8 +56,11 @@ function updateMolecule(value) {
  */
 function init() {
     scene = new THREE.Scene();
-    var WIDTH = window.innerWidth - 10;
-    var HEIGHT = window.innerHeight - 150;
+
+    var WIDTH = window.innerWidth - 40;
+    // The height also has a offset because of the interface
+    // above the threejs canvas
+    var HEIGHT = window.innerHeight - 200;
 
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(WIDTH, HEIGHT);
@@ -71,8 +74,8 @@ function init() {
     setButtonColours(5);
 
     window.addEventListener('resize', function() {
-        var WIDTH = window.innerWidth - 10;
-        var HEIGHT = window.innerHeight - 150;
+        var WIDTH = window.innerWidth;
+        var HEIGHT = window.innerHeight - 200;
         renderer.setSize(WIDTH, HEIGHT);
         camera.aspect = WIDTH/HEIGHT;
         camera.updateProjectionMatrix();
@@ -121,10 +124,9 @@ function buildAxes(length) {
     var axes = new THREE.Object3D();
     var origin = new THREE.Vector3(0, 0, 0);
 
-    createAxeLabel(1000, 40, 0, "Y", 0xFF0000);
-    createAxeLabel(40, 1000, 40, "Z", 0x00FF00);
-    createAxeLabel(0, 40, -1000, "X", 0x0000FF);
-    
+    createAxisLabel(1000, 40, 0, "Y", 0xFF0000);
+    createAxisLabel(40, 1000, 40, "Z", 0x00FF00);
+    createAxisLabel(0, 40, -1000, "X", 0x0000FF);
 
     axes.add( drawLine( origin, new THREE.Vector3( length, 0, 0 ), 0xFF0000) );
     axes.add( drawLine( origin, new THREE.Vector3( -length, 0, 0 ), 0xFF0000) );
@@ -223,24 +225,6 @@ function lookupAndCreate(id, name) {
     } else {
         console.log("Could not retrieve orbital");
     }
-}
-
-/*
- * To be attached to a button's onClick command
- * Toggles a set of orbitals
- * The x, y, z params are rotations in radians
- * The key is a unique to store within the dictionary
- */
-function handleButtonClick(id, x, y, z, key) {
-    var val = toggleOrbital(x, y, z, key, "0x" + colours[id]);
-}
-
-/*
- * Similar the above function but creates a torus, used for the
- * z^2 method
- */
-function handleButtonClickTorus(id, key) {
-    var val = createOrbitalAndTorus(key, 0, 0, 0, "0x" + colours[id]);
 }
 
 /*
@@ -355,10 +339,10 @@ function resetView() {
 }
 
 /**
- * Creates an axe label at the given position with the given colour
+ * Creates an axis label at the given position with the given colour
  * Automicatically adds the text to the scene and the text array
  */
-function createAxeLabel(x, y, z, text, color) {
+function createAxisLabel(x, y, z, text, color) {
 
     var textGeo = new THREE.TextGeometry(text, {
         size: 50,

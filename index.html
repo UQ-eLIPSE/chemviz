@@ -8,6 +8,7 @@
 <script src="js/fonts/helvetiker_regular.typeface.js"></script>
 
 <body>
+
     <div style="padding:10px; float:left;">
         <div style="padding:10px">
             <label>Select layout: </label>
@@ -31,6 +32,7 @@
 
 
     <div style="float:right">
+        <!-- Draw the buttons for each orbital -->
         <div id="buttons">
             <button id="0" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('0', 'z^2')">d<sub>z<sup>2</sup></sub></button>
             <button id="1" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('1', 'x^2 - y^2')">d<sub>x<sup>2</sup> - y<sup>2</sup></sub></button>
@@ -46,8 +48,10 @@
     <div style="float:right">
         <img id="img" src="img/oct.png" style="height:120px; width:auto; padding:10px"> 
     </div>
+
 </body>
 
+<!-- These need to be loaded after the body tag -->
 <script src="js/MoleculeRenderer.js"></script>
 <script src="js/LigantDrawer.js"></script>
 <script src="js/CanvasGrapher.js"></script>
