@@ -1,0 +1,14 @@
+{
+    "name": "ChemVis",
+    "version": "0.1.0",
+    "author": "Roy Portas <uqrport1@uq.edu.au>",
+
+    "dependencies": {
+        "gulp": "*",
+        "gulp-browserify": "*",
+        "gulp-download": "*",
+        "gulp-clean": "*",
+        "gulp-webserver": "*"
+    }
+
+}
