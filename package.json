@@ -8,7 +8,8 @@
         "gulp-browserify": "*",
         "gulp-download": "*",
         "gulp-clean": "*",
-        "gulp-webserver": "*"
+        "gulp-webserver": "*",
+        "mocha": "*"
     }
 
 }
