@@ -3,12 +3,24 @@ var download = require('gulp-download');
 var webserver = require('gulp-webserver');
 
 // Build Dependencies
-var browserify = require('gulp-browserify');
 var clean = require('gulp-clean');
+var qunit = require('node-qunit-phantomjs');
+var documentation = require('gulp-documentation');
+var jshint = require('gulp-jshint');
 
 gulp.task('test', function() {
     gulp.src('test/*')
         .pipe(gulp.dest('build'));
+});
+
+gulp.task('testrunner', ['test'], function() {
+    qunit('build/tests.html');
+});
+
+gulp.task('lint', function() {
+    return gulp.src('app/js/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
 });
 
 gulp.task('build', ['clean'], function() {
@@ -20,12 +32,21 @@ gulp.task('build', ['clean'], function() {
 
     gulp.src("app/index.html")
         .pipe(gulp.dest('build'));
-    
+
+});
+
+gulp.task('docs', function() {
+    gulp.src('app/js/*.js')
+        .pipe(documentation({ format: 'html'}))
+        .pipe(gulp.dest('doc'))
 });
 
 gulp.task('download', ['clean', 'build'], function() {
     // Download the threejs dependencies
     download("https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.min.js")
+        .pipe(gulp.dest('build/js/threejs'));
+
+    download("https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.js")
         .pipe(gulp.dest('build/js/threejs'));
 
     download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js")
@@ -36,7 +57,7 @@ gulp.task('download', ['clean', 'build'], function() {
 
     download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/geometries/TextGeometry.js")
         .pipe(gulp.dest('build/js/threejs'));
-    
+
     download("https://raw.githubusercontent.com/mrdoob/three.js/master/src/extras/geometries/TorusGeometry.js")
         .pipe(gulp.dest('build/js/threejs'));
 

@@ -5,11 +5,14 @@
 
     "dependencies": {
         "gulp": "*",
-        "gulp-browserify": "*",
         "gulp-download": "*",
         "gulp-clean": "*",
         "gulp-webserver": "*",
-        "mocha": "*"
+        "gulp-documentation": "*",
+        "jshint": "*",
+        "gulp-jshint": "*",
+        "phantomjs": "*",
+        "node-qunit-phantomjs": "*"
     }
 
 }

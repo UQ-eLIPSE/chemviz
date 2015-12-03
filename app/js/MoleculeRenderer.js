@@ -1,7 +1,6 @@
 /**
- * MoleculeRenderer.js
+ * @file MoleculeRenderer.js Manages the rendering of the molecules and orbitals onto the screen
  * @author Roy Portas
- * NOTE: Load this after the body tag
  */
 
 var scene, camera, renderer, model, axes;
@@ -17,12 +16,13 @@ var textMeshs = [];
 var moleculeType = "oct";
 
 // Stores a list of orbitals currently in the scene
-var orbitals = new Array();
+var orbitals = [];
 
 /**
  * Sets the colours of the button
  * Buttons must have id's counting up (0, 1, 2, ...) up to but not including
  * 'upper'
+ * @param {number} upper the number of orbitals for the atom
  */
 function setButtonColours(upper) {
     for(i = 0; i < upper; i++) {
@@ -32,6 +32,7 @@ function setButtonColours(upper) {
 
 /**
  * Updates which orbitals are enabled
+ * @param {string} value the value to set the orbital to ("oct", "tetra", "square")
  */
 function updateMolecule(value) {
 
@@ -49,7 +50,7 @@ function updateMolecule(value) {
     redrawCircles(100);
 
     // remove all existing orbitals
-    for (key in orbitals) {
+    for (var key in orbitals) {
         scene.remove(orbitals[key]);
     }
     orbitals = {};
@@ -69,7 +70,7 @@ function init() {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(WIDTH, HEIGHT);
     renderer.setClearColor(0, 1);
-    if (testing == 0) {
+    if (testing === 0) {
         // Only add it to the document if we are not testing
         document.body.appendChild(renderer.domElement);
     }
@@ -111,11 +112,14 @@ function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
     controls.update();
-    updateText(); 
+    updateText();
 }
 
 /**
  * Creates a light at a given point
+ * @param {number} x the x coordinate
+ * @param {number} y the y coordinate
+ * @param {number} z the z coordinate
  */
 function create_light(x, y, z) {
     var light = new THREE.PointLight(0xffffff);
@@ -125,7 +129,8 @@ function create_light(x, y, z) {
 
 /**
  * Creates a set of axes
- * Returns the axes object
+ * @param {number} length length of the axes
+ * @returns {THREE.Object3D} the axes object
  */
 function buildAxes(length) {
     var axes = new THREE.Object3D();
@@ -148,6 +153,10 @@ function buildAxes(length) {
 /**
  * Draws a line between the points 'src' and 'dest' with the given
  * colorHex
+ * @param {THREE.Vector3} src the starting point vector
+ * @param {THREE.Vector3} dest the finishing point vector
+ * @param {number} colorHex a value representing the color
+ * @returns {THREE.Object3D} returns the axis as a Object3D object
  */
 function drawLine(src, dest, colorHex) {
     var geom = new THREE.Geometry(), mat;
@@ -164,6 +173,11 @@ function drawLine(src, dest, colorHex) {
 /**
  * Scales a shape
  * Returns the shape with the transformation applied
+ * @param {THREE.Object3D} shape the shape to scale
+ * @param {number} x the x scale
+ * @param {number} y the y scale
+ * @param {number} z the z scale
+ * @returns {THREE.Object3D}
  */
 function scaleShape(shape, x, y, z) {
     shape.scale.x = x;
@@ -174,6 +188,11 @@ function scaleShape(shape, x, y, z) {
 
 /**
  * Moves the shape relative to a position
+ * @param {THREE.Object3D} shape the shape to move
+ * @param {number} x the x movement
+ * @param {number} y the y movement
+ * @param {number} z the z movement
+ * @returns {THREE.Object3D}
  */
 function moveShapeRel(shape, x, y, z) {
     shape.position.x += x;
@@ -184,7 +203,10 @@ function moveShapeRel(shape, x, y, z) {
 
 /*
  * Creates a sphere with the given color and opacity
- * Returns the sphere object
+ * @param {number} color the hex colour to use
+ * @param {number} opacity the opacity between 0 and 1
+ * @param {number} size the size of the sphere
+ * @returns {THREE.Object3D} the sphere object
  */
 function createSphere(color, opacity, size) {
     var sphereMaterial;
@@ -208,23 +230,24 @@ function createSphere(color, opacity, size) {
 
 /*
  * Uses the Molecule.js file to look and load a orbital model
- * Takes in an id and the name of the orbital
+ * @param {string} id the id of the object
+ * @param {string} name the name of the orbital to look up
  */
 function lookupAndCreate(id, name) {
     var obj = null;
-    var dArr = data["orbital"];
+    var dArr = data.orbital;
     for (i = 0; i < dArr.length; i++) {
         // Check if the names match
-        if (dArr[i]["name"] == name) {
+        if (dArr[i].name == name) {
             obj = dArr[i];
         }
     }
 
-    if (obj != null) {
-        var x = obj["x"];
-        var y = obj["y"];
-        var z = obj["z"];
-        if (obj["isTorus"] == true) {
+    if (obj !== null) {
+        var x = obj.x;
+        var y = obj.y;
+        var z = obj.z;
+        if (obj.isTorus === true) {
             createOrbitalAndTorus(name, x, y, z, "0x" + colours[id]);
         } else {
             toggleOrbital(x, y, z, name, "0x" + colours[id]);
@@ -249,6 +272,11 @@ function lookupAndCreate(id, name) {
 /*
  * Draws any given orbital
  * This function will toggle a orbital on and off
+ * @param {number} x the x location
+ * @param {number} y the y location
+ * @param {number} z the z location
+ * @param {string} key the unique key of the orbital
+ * @param {number} hex the colour of the orbital
  */
 function toggleOrbital(x, y, z, key, hex) {
     if (key in orbitals) {
@@ -264,6 +292,11 @@ function toggleOrbital(x, y, z, key, hex) {
 
 /*
  * Creates orbitals and the torus
+ * @param {string} key the key of the orbital
+ * @param {number} x the x position
+ * @param {number} y the y position
+ * @param {number} z the z position
+ * @param {number} hex the hex position
  */
 function createOrbitalAndTorus(key, x, y, z, hex) {
     if (key in orbitals) {
@@ -282,7 +315,7 @@ function createOrbitalAndTorus(key, x, y, z, hex) {
         scaleShape(end, 1, 1.5, 1);
         obj.add(end);
 
-        var end = createSphere(colour, 1);
+        end = createSphere(colour, 1);
         moveShapeRel(end, 0, mOffset, 0);
         scaleShape(end, 1, 1.5, 1);
         obj.add(end);
@@ -307,7 +340,11 @@ function createOrbitalAndTorus(key, x, y, z, hex) {
 
 /*
  * Creates an orbital and rotates it by (x, y, z) radians
- * Returns an Object3D which can be added to the scene
+ * @param {number} x the value in radians to rotate on the x axis
+ * @param {number} y the value in radians to rotate on the y axis
+ * @param {number} z the value in radians to rotate on the z axis
+ * @param {number} hex the color hex value of the orbital
+ * @returns {THREE.Object3D}
  */
 function rotateOrbital(x, y, z, hex) {
     var orb = orbitalDraw(hex);
@@ -319,7 +356,8 @@ function rotateOrbital(x, y, z, hex) {
 
 /*
  * Creates an orbital with the given hex colour
- * Returns a Object3D containing the orbital
+ * @param {number} hex the color hex value of the orbital
+ * @returns {THREE.Object3D}
  */
 function orbitalDraw(hex) {
     var obj = new THREE.Object3D();
@@ -332,17 +370,17 @@ function orbitalDraw(hex) {
     scaleShape(end, 1.5, 1, 1);
     obj.add(end);
 
-    var end = createSphere(colour, 1);
+    end = createSphere(colour, 1);
     moveShapeRel(end, -mOffset, 0, 0);
     scaleShape(end, 1.5, 1, 1);
     obj.add(end);
 
-    var end = createSphere(colour, 1);
+    end = createSphere(colour, 1);
     moveShapeRel(end, 0, 0, mOffset);
     scaleShape(end, 1, 1, 1.5);
     obj.add(end);
 
-    var end = createSphere(colour, 1);
+    end = createSphere(colour, 1);
     moveShapeRel(end, 0, 0, -mOffset);
     scaleShape(end, 1, 1, 1.5);
     obj.add(end);
@@ -360,6 +398,11 @@ function resetView() {
 /**
  * Creates an axis label at the given position with the given colour
  * Automicatically adds the text to the scene and the text array
+ * @param {number} x the x position of the text
+ * @param {number} y the y position of the text
+ * @param {number} z the z position of the text
+ * @param {string} text the text to render onto the screen
+ * @param {number} color the colour to paint the text
  */
 function createAxisLabel(x, y, z, text, color) {
 
@@ -379,7 +422,7 @@ function createAxisLabel(x, y, z, text, color) {
     textMesh.position.x = x;
     textMesh.position.y = y;
     textMesh.position.z = z;
-    
+
     textMesh.lookAt(camera.position);
     scene.add(textMesh);
 

@@ -1,5 +1,5 @@
 /**
- * CircleDrawer.js
+ * @file LigantDrawer.js Manages drawing the ligants and handles the math behind them
  * @author Roy Portas
  */
 
@@ -23,7 +23,7 @@ function removeCircles() {
  * Also hides the plotter when the circles are hidden
  */
 function toggleCircles() {
-    if (circlesEnabled == true) {
+    if (circlesEnabled === true) {
         document.getElementById("slider").disabled = 1;
         circlesEnabled = false;
         removeCircles();
@@ -40,6 +40,7 @@ function toggleCircles() {
 /**
  * Updates the position of the circles on the screen
  * This is the higher level function which handles circle drawing
+ * @param {number} offset the offset of the circles from the origin
  */
 function updateCircles(offset) {
 
@@ -55,7 +56,7 @@ function updateCircles(offset) {
         } else if (moleculeType == "tetra") {
             updateTetra(offset);
         }
-        
+
         movePoints(offset);
     } else {
         clearCanvas();
@@ -64,6 +65,7 @@ function updateCircles(offset) {
 
 /**
  * Draws the ligants for a octagonal molecule
+ * @param {number} offset the offset of the circles from the origin
  */
 function updateOct(offset) {
     circles.getObjectByName("top").position.y = offset;
@@ -78,6 +80,7 @@ function updateOct(offset) {
 
 /**
  * Draws the ligants for a square molecule
+ * @param {number} offset the offset of the circles from the origin
  */
 function updateSquare(offset) {
     circles.getObjectByName("right").position.x = offset;
@@ -89,10 +92,11 @@ function updateSquare(offset) {
 
 /**
  * Draws the ligants for a tetrahedron molecule
+ * @param {number} offset the offset of the circles from the origin
  */
 function updateTetra(offset) {
     // Scale it down a little
-    var offset = offset / 3;
+    offset = offset / 3;
 
     circles.getObjectByName("top").position.x = offset;
     circles.getObjectByName("top").position.y = offset;
@@ -109,12 +113,17 @@ function updateTetra(offset) {
     circles.getObjectByName("s4").position.x = offset;
     circles.getObjectByName("s4").position.y = -offset;
     circles.getObjectByName("s4").position.z = -offset;
-    
+
 }
 
 /**
  * Creates a single circle
- * @return THREE.Mesh      A single circle
+ * @param {number} x x position
+ * @param {number} y y position
+ * @param {number} z z position
+ * @param {number} size size of circle
+ * @param {string} name name of circle
+ * @returns {THREE.Mesh}
  */
 function createSingleCircle(x, y, z, size, name){
     var sphereMat = new THREE.MeshLambertMaterial({color: 0x00FF00});
@@ -137,6 +146,7 @@ function createSingleCircle(x, y, z, size, name){
 /**
  * Creates all the circles along each axis with a given offset from the
  * origin
+ * @param {number} offset offset from the origin
  */
 function createCircles(offset) {
     if (moleculeType == "oct") {
@@ -150,6 +160,8 @@ function createCircles(offset) {
 
 /**
  * Creates the ligants for a octagonal molecule
+ * @param {number} offset offset from the origin
+ * @returns {THREE.Object3D}
  */
 function createOct(offset) {
     var circles = new THREE.Object3D();
@@ -172,6 +184,8 @@ function createOct(offset) {
 
 /**
  * Creates the ligants for a square molecule
+ * @param {number} offset offset from the origin
+ * @returns {THREE.Object3D}
  */
 function createSquare(offset) {
     var circles = new THREE.Object3D();
@@ -190,11 +204,13 @@ function createSquare(offset) {
 
 /**
  * Creates the ligants for a tetrahedron molecule
+ * @param {number} offset offset from the origin
+ * @returns {THREE.Object3D}
  */
 function createTetra(offset) {
     var circles = new THREE.Object3D();
     var size = 50;
-   
+
     circles.add(createSingleCircle(offset, offset, offset, size, "top"));
     circles.add(createSingleCircle(-offset, -offset, offset, size, "s2"));
     circles.add(createSingleCircle(-offset, offset, -offset, size, "s3"));
@@ -214,6 +230,7 @@ function createTetra(offset) {
 
 /**
  * Redraws the ligants
+ * @param {number} offset offset from the origin
  */
 function redrawCircles(offset) {
     if (circlesEnabled) {
@@ -228,6 +245,8 @@ function redrawCircles(offset) {
 
 /**
  * Converts degrees to radians
+ * @param {number} degs angle in degrees
+ * @returns {number} angle in radians
  */
 function toRadians(degs) {
     return degs * Math.PI / 180;
@@ -236,14 +255,15 @@ function toRadians(degs) {
 /**
  * Computes the angles for the tetrahedral ligants
  * Returns a tuple that contains the x and z coord
+ * @param {number} x the x coordinate
  */
 function computeAngles(x) {
     // Scale the shape down
     x = x / 2;
     var z = Math.tan(toRadians(60)) * x;
 
-    var out = []
-    
+    var out = [];
+
     out.push(Math.abs(x));
     out.push(Math.abs(z));
 
