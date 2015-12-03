@@ -6,6 +6,11 @@ var webserver = require('gulp-webserver');
 var browserify = require('gulp-browserify');
 var clean = require('gulp-clean');
 
+gulp.task('test', function() {
+    gulp.src('test/*')
+        .pipe(gulp.dest('build'));
+});
+
 gulp.task('build', ['clean'], function() {
     gulp.src('app/js/*')
         .pipe(gulp.dest('build/js'));

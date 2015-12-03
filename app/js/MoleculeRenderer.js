@@ -6,6 +6,10 @@
 
 var scene, camera, renderer, model, axes;
 
+// Set to 1 to enable testing
+// Testing disable displaying the threejs canvas on the screen
+var testing = testing || 0;
+
 // Store the text meshs here
 var textMeshs = [];
 
@@ -65,7 +69,10 @@ function init() {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(WIDTH, HEIGHT);
     renderer.setClearColor(0, 1);
-    document.body.appendChild(renderer.domElement);
+    if (testing == 0) {
+        // Only add it to the document if we are not testing
+        document.body.appendChild(renderer.domElement);
+    }
 
     camera = new THREE.PerspectiveCamera(45, WIDTH/HEIGHT, 0.1, 20000);
     camera.position.set(2000, 2000, -2000);
