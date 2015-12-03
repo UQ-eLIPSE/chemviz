@@ -1,6 +1,5 @@
 /**
- * Molecules.js
- * Stores the data relating to molecules and orbitals
+ * @file Molecules.js Stores the data relating to molecules and orbitals
  * @author Roy Portas
  */
 

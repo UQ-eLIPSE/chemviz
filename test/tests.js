@@ -7,18 +7,58 @@ $(document).ready(function() {
     }, 2000);
 });
 
+// Some small helper functions to aid with testing
+function calcArraySize(array) {
+    var count = 0;
+    for (var element in array) {
+        count++;
+    }
+    return count;
+}
+
+function contains(str, substr) {
+    if (str.indexOf(substr) > -1) {
+        return true;
+    }
+    return false;
+}
+
 QUnit.test("Molecule Selection Test", function(assert) {
     assert.ok(moleculeType == "oct", "Correct starting molecule");
-    
+
     // Update molecule type
     updateMolecule("tetra");
     assert.ok(moleculeType == "tetra", "Correct selection of tetra");
+    assert.ok(calcArraySize(orbitals) == 0, "Correct size of orbital array")
 
     updateMolecule("square");
     assert.ok(moleculeType == "square", "Correct selection of square");
+    assert.ok(calcArraySize(orbitals) == 0, "Correct size of orbital array")
 
     updateMolecule("oct");
     assert.ok(moleculeType == "oct", "Correct selection of oct");
+    assert.ok(calcArraySize(orbitals) == 0, "Correct size of orbital array")
+
+    // Test sphere creation
+    var x = createSphere(0xffffff, 1, 50);
+    assert.ok("ffffff" == x.material.color.getHexString(), "Sphere colouring is correct");
+
+    // Test object scaling
+    var n = scaleShape(x, 5, 6, 7);
+    assert.ok(5 == n.scale.x, "x scaling is working");
+    assert.ok(6 == n.scale.y, "y scaling is working");
+    assert.ok(7 == n.scale.z, "z scaling is working");
+
+    // Test default position of shapes
+    assert.ok(x.position.x == 0, "Default x coord is correct");
+    assert.ok(x.position.y == 0, "Default y coord is correct");
+    assert.ok(x.position.z == 0, "Default z coord is correct");
+
+    // Test relative move function
+    var newShape = moveShapeRel(x, 10, 11, 12);
+    assert.ok(newShape.position.x == 10, "newShape x coord is correct");
+    assert.ok(newShape.position.y == 11, "newShape y coord is correct");
+    assert.ok(newShape.position.z == 12, "newShape z coord is correct");
 
 });
 
@@ -70,6 +110,31 @@ QUnit.test("Ligant Drawer Test", function(assert) {
     assert.ok(circles.getObjectByName("s4").position.x == offset, "TETRA: (x) s4 orbital position is ok");
     assert.ok(circles.getObjectByName("s4").position.y == -offset, "TETRA: (y) s4 orbital position is ok");
     assert.ok(circles.getObjectByName("s4").position.z == -offset, "TETRA: (z) s4 orbital position is ok");
+
+});
+
+QUnit.test("Canvas Grapher Test", function(assert) {
+    assert.ok(upperRange == document.getElementById("slider").max, "upperRange is correct");
+    assert.ok(lowerRange == document.getElementById("slider").min, "lowerRange is correct");
+
+    var arr1 = [1, 2, 3];
+    var arr2 = deepCopy(arr1);
+    arr2[0] = 5;
+    assert.ok(arr1[0] != arr2[0], "deepCopy function working correctly")
+
+    // By default not orbitals should be drawn
+    assert.ok(checkIfPlottable() == false, "checkIfPlottable is working for default case");
+
+    var ligTestData = data["ligands"][0]["points"];
+    var ligTestName = data["ligands"][0]["name"];
+    var ligTestFull = data["ligands"][0];
+
+    moleculeType = ligTestName;
+    updatePoints();
+    assert.ok(ligTestData.toString() == points.toString(), "Points are loaded correctly");
+    assert.ok(ligTestData.toString() == curPoints.toString(), "Current Points are loaded correctly");
+
+    assert.ok(getOrbitalByName(ligTestName).toString() == ligTestFull.toString(), "getOrbitalByName correct");
 
 
 });

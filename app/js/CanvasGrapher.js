@@ -1,14 +1,12 @@
 /**
- * CanvasGrapher.js
- * Handles graphing onto the CanvasGrapher
- * Used to show the energy fields
+ * @file CanvasGrapher.js Handles graphing onto the CanvasGrapher
  * @author Roy Portas
  */
 
 // The y-coords of the graph
 // By default, use the oct layout
-var points = deepCopy(getOrbitalByName("oct")["points"]);
-var curPoints = getOrbitalByName("oct")["points"];
+var points = deepCopy(getOrbitalByName("oct").points);
+var curPoints = getOrbitalByName("oct").points;
 
 // The upper limit of the range
 var upperRange = document.getElementById("slider").max;
@@ -17,6 +15,7 @@ var lowerRange = document.getElementById("slider").min;
 
 /**
  * Updates the molecule static image
+ * @param {string} filename of image
  */
 function updateImage(filename) {
     var img = document.getElementById("img");
@@ -25,6 +24,7 @@ function updateImage(filename) {
 
 /**
  * Deep copies an array
+ * @param {array} inArr array to deepcopy
  */
 function deepCopy(inArr) {
     return inArr.concat();
@@ -42,17 +42,16 @@ function clearCanvas() {
 
 /**
  * Checks if the ligant energy fields should be plotted
- * returns true if the energy fields exist
- * returns false if there are not enough ligants
+ * @returns {bool} returns true if plotable, false otherwise
  */
 function checkIfPlottable() {
     var count = 0;
 
-    for (x in orbitals) {
+    for (var x in orbitals) {
         count++;
     }
 
-    if (count >= 5) {
+    if (count >= 1) {
         return true;
     } else {
         return false;
@@ -71,7 +70,7 @@ function plotPoints() {
         var sub = interval / 4;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (i = 0; i < points.length; i++) {
+        for (var i = 0; i < points.length; i++) {
             ctx.moveTo(interval * i + sub, canvas.height - points[i]);
             ctx.lineTo(interval * i + 3 * sub, canvas.height - points[i]);
             ctx.stroke();
@@ -83,15 +82,9 @@ function plotPoints() {
 
 /**
  * Handles moving the points when the user uses the slide bar
+ * @param {number} offset offset for the ligants
  */
 function movePoints(offset) {
-    // TODO: Remove this if not required
-    /*
-    if (checkIfPlottable() == false) {
-        // This represents the low energy state
-        points = [10, 10, 10, 10, 10];
-    } else 
-    */
     if (moleculeType == "oct") {
         // Apply transformations for octahedral
         points[0] = curPoints[0] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
@@ -100,7 +93,7 @@ function movePoints(offset) {
         points[3] = curPoints[3] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
         points[4] = curPoints[4] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
     } else if (moleculeType == "square") {
-        // Apply transformations for square planar 
+        // Apply transformations for square planar
         points[0] = curPoints[0] + (offset - lowerRange) / (upperRange - lowerRange) * 10;
         points[1] = curPoints[1] - (offset - lowerRange) / (upperRange - lowerRange) * 30;
         points[2] = curPoints[2] - (offset - lowerRange) / (upperRange - lowerRange) * 10;
@@ -122,13 +115,15 @@ function movePoints(offset) {
  */
 function updatePoints() {
     var lData = getOrbitalByName(moleculeType);
-    points = deepCopy(lData["points"]);
-    curPoints = lData["points"];
+    points = deepCopy(lData.points);
+    curPoints = lData.points;
 }
 
 /**
  * Updates the position of the point
  * Handles converting the value into a graph friendly number
+ * @param {number} val the current energy level
+ * @param {number} pos the position in the graph to update
  */
 function updatePos(val, pos) {
     var range = upperRange - lowerRange;
@@ -140,12 +135,13 @@ function updatePos(val, pos) {
 /**
  * Retrieves an orbital with the given name
  * from the data array
+ * @param {string} name the name of the orbital to retrieve
  */
 function getOrbitalByName(name) {
     var ligData = null;
-    var ligFull = data["ligands"];
-    for (i = 0; i < ligFull.length; i++) {
-        if (ligFull[i]["name"] == name) {
+    var ligFull = data.ligands;
+    for (var i = 0; i < ligFull.length; i++) {
+        if (ligFull[i].name == name) {
             ligData = ligFull[i];
         }
     }
