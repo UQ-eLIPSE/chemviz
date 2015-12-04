@@ -61,6 +61,12 @@ gulp.task('download', ['clean', 'build'], function() {
     download("https://raw.githubusercontent.com/mrdoob/three.js/master/src/extras/geometries/TorusGeometry.js")
         .pipe(gulp.dest('build/js/threejs'));
 
+    download("https://raw.githubusercontent.com/mrdoob/three.js/master/LICENSE")
+        .pipe(gulp.dest('build/js/threejs'));
+
+    download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/LICENSE")
+        .pipe(gulp.dest('build/js/fonts'));
+
     download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/helvetiker_regular.typeface.js")
         .pipe(gulp.dest('build/js/fonts'));
 });

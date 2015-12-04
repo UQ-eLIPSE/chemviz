@@ -1,6 +1,6 @@
 /**
  * @file Molecules.js Stores the data relating to molecules and orbitals
- * @author Roy Portas
+ * @author 
  */
 
 /*
@@ -16,9 +16,9 @@ var data = {
     ],
 
     "ligands": [
-        {"name": "oct",     "points": [70, 70, 50, 50, 50]},
-        {"name": "tetra",   "points": [50, 50, 70, 70, 70]},
-        {"name": "square",  "points": [40, 80, 60, 20, 20]}
+        {"name": "oct",     "points": [80, 80, 50, 50, 50], "text": "Octahedral complex<br> energy diagram"},
+        {"name": "tetra",   "points": [50, 50, 80, 80, 80], "text": "Tetrahedral complex<br> energy diagram"},
+        {"name": "square",  "points": [40, 80, 60, 20, 20], "text": "Square planar <br>complex diagram"}
     ]
 
 };

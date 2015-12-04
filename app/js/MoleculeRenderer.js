@@ -1,6 +1,6 @@
 /**
  * @file MoleculeRenderer.js Manages the rendering of the molecules and orbitals onto the screen
- * @author Roy Portas
+ * @author 
  */
 
 var scene, camera, renderer, model, axes;
@@ -42,6 +42,14 @@ function updateMolecule(value) {
         updateImage("img/tetra.png");
     } else if (value == "square") {
         updateImage("img/square.png");
+    }
+
+    var description = document.getElementById("tag");
+    var ligData = data.ligands;
+    for (var l = 0; l < ligData.length; l++) {
+        if (ligData[l].name == value) {
+            description.innerHTML = ligData[l].text;
+        }
     }
 
     moleculeType = value;

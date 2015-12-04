@@ -1,6 +1,6 @@
 /**
  * @file LigantDrawer.js Manages drawing the ligants and handles the math behind them
- * @author Roy Portas
+ * @author 
  */
 
 // Stores the circles object
