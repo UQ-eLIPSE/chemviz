@@ -12,7 +12,7 @@
     <div style="padding:10px; float:left;">
         <div style="padding:10px">
             <label>Select layout: </label>
-            <select oninput="updateMolecule(this.value)">
+            <select onchange="updateMolecule(this.value)">
                 <option value="oct">Octahedral</option>
                 <option value="tetra">Tetrahedral</option>
                 <option value="square">Square Planar</option>
@@ -20,7 +20,7 @@
 
         </div>
         <div>
-            <button id="toggleField" type="button" disabled=true style="float: left; width: 200px" onClick="toggleCircles()">Toggle Ligands</button>
+            <button id="toggleField" type="button" style="float: left; width: 200px" onClick="toggleCircles()">Toggle Ligands</button>
         </div>
         <div>
             <input id="slider" style="float: left; width: 200px; height: 50px" disabled type="range" min="1000" max="4000" step="20" value="3000" oninput="updateCircles(this.value)">
@@ -41,12 +41,13 @@
             <button id="4" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('4', 'xz')">d<sub>xz</sub></button>
         </div>
         <div id="canvasDiv">
-            <canvas id="canvas" width="514" height="100" style="border:1px solid #000000;">
+            <canvas id="canvas" width="514" height="100" style="border:1px solid #000000;"></canvas>
         </div>
     </div>
 
     <div style="float:right">
-        <img id="img" src="img/oct.png" style="height:120px; width:auto; padding:10px">
+        <img id="img" src="img/oct.png" style="height:120px; width:auto; padding:10px"></img>
+        <p id="tag" style="font-family: verdana; font-size: 70%">Octahedral Complex<br>Energy Diagram</p>
     </div>
 
 </body>

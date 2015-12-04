@@ -16,28 +16,39 @@ function calcArraySize(array) {
     return count;
 }
 
-function contains(str, substr) {
-    if (str.indexOf(substr) > -1) {
-        return true;
+function getTagText() {
+    return document.getElementById("tag").innerHTML;
+}
+
+function lookupLigantData(ligName) {
+    var lData = data.ligands;
+    for (var i = 0; i < lData.length; i++) {
+        if (lData[i].name == ligName) {
+            return lData[i];
+        }
     }
-    return false;
+    return null;
 }
 
 QUnit.test("Molecule Selection Test", function(assert) {
     assert.ok(moleculeType == "oct", "Correct starting molecule");
 
+
     // Update molecule type
     updateMolecule("tetra");
     assert.ok(moleculeType == "tetra", "Correct selection of tetra");
     assert.ok(calcArraySize(orbitals) == 0, "Correct size of orbital array")
+    assert.ok(getTagText() == lookupLigantData("tetra").text, "Tetra text updated correctly")
 
     updateMolecule("square");
     assert.ok(moleculeType == "square", "Correct selection of square");
     assert.ok(calcArraySize(orbitals) == 0, "Correct size of orbital array")
+    assert.ok(getTagText() == lookupLigantData("square").text, "Square text updated correctly")
 
     updateMolecule("oct");
     assert.ok(moleculeType == "oct", "Correct selection of oct");
     assert.ok(calcArraySize(orbitals) == 0, "Correct size of orbital array")
+    assert.ok(getTagText() == lookupLigantData("oct").text, "Oct text updated correctly")
 
     // Test sphere creation
     var x = createSphere(0xffffff, 1, 50);
@@ -123,7 +134,7 @@ QUnit.test("Canvas Grapher Test", function(assert) {
     assert.ok(arr1[0] != arr2[0], "deepCopy function working correctly")
 
     // By default not orbitals should be drawn
-    assert.ok(checkIfPlottable() == false, "checkIfPlottable is working for default case");
+    assert.ok(checkIfPlottable() == true, "checkIfPlottable is working for default case");
 
     var ligTestData = data["ligands"][0]["points"];
     var ligTestName = data["ligands"][0]["name"];

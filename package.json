@@ -1,18 +1,16 @@
 {
-    "name": "ChemVis",
-    "version": "0.1.0",
-    "author": "Roy Portas <uqrport1@uq.edu.au>",
-
-    "dependencies": {
-        "gulp": "*",
-        "gulp-download": "*",
-        "gulp-clean": "*",
-        "gulp-webserver": "*",
-        "gulp-documentation": "*",
-        "jshint": "*",
-        "gulp-jshint": "*",
-        "phantomjs": "*",
-        "node-qunit-phantomjs": "*"
-    }
-
+  "name": "chem-vis",
+  "version": "0.1.0",
+  "author": "",
+  "dependencies": {
+    "gulp": "*",
+    "gulp-clean": "*",
+    "gulp-documentation": "*",
+    "gulp-download": "*",
+    "gulp-jshint": "*",
+    "gulp-webserver": "*",
+    "jshint": "*",
+    "node-qunit-phantomjs": "*",
+    "phantomjs": "*",
+  }
 }

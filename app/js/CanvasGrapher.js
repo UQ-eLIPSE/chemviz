@@ -1,6 +1,6 @@
 /**
  * @file CanvasGrapher.js Handles graphing onto the CanvasGrapher
- * @author Roy Portas
+ * @author 
  */
 
 // The y-coords of the graph
@@ -51,6 +51,9 @@ function checkIfPlottable() {
         count++;
     }
 
+    // Make it always plottable
+    return true;
+
     if (count >= 1) {
         return true;
     } else {
@@ -87,8 +90,8 @@ function plotPoints() {
 function movePoints(offset) {
     if (moleculeType == "oct") {
         // Apply transformations for octahedral
-        points[0] = curPoints[0] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
-        points[1] = curPoints[1] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
+        points[0] = curPoints[0] - (offset - lowerRange) / (upperRange - lowerRange) * 70;
+        points[1] = curPoints[1] - (offset - lowerRange) / (upperRange - lowerRange) * 70;
         points[2] = curPoints[2] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
         points[3] = curPoints[3] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
         points[4] = curPoints[4] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
@@ -103,9 +106,9 @@ function movePoints(offset) {
         // Apply transformations for tetrahedral
         points[0] = curPoints[0] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
         points[1] = curPoints[1] - (offset - lowerRange) / (upperRange - lowerRange) * 40;
-        points[2] = curPoints[2] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
-        points[3] = curPoints[3] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
-        points[4] = curPoints[4] - (offset - lowerRange) / (upperRange - lowerRange) * 60;
+        points[2] = curPoints[2] - (offset - lowerRange) / (upperRange - lowerRange) * 70;
+        points[3] = curPoints[3] - (offset - lowerRange) / (upperRange - lowerRange) * 70;
+        points[4] = curPoints[4] - (offset - lowerRange) / (upperRange - lowerRange) * 70;
     }
     plotPoints();
 }
