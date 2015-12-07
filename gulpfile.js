@@ -4,7 +4,6 @@ var webserver = require('gulp-webserver');
 
 // Build Dependencies
 var clean = require('gulp-clean');
-var qunit = require('node-qunit-phantomjs');
 var documentation = require('gulp-documentation');
 var jshint = require('gulp-jshint');
 var selenium = require('selenium-standalone');
@@ -15,10 +14,6 @@ var stream = null;
 gulp.task('test', function() {
     gulp.src('test/*')
         .pipe(gulp.dest('build'));
-});
-
-gulp.task('testrunner', ['test'], function() {
-    qunit('build/tests.html');
 });
 
 gulp.task('lint', function() {
