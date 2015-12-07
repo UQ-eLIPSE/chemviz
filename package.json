@@ -12,6 +12,7 @@
     "jshint": "*",
     "mocha": "*",
     "gulp-mocha": "*",
-    "selenium-standalone": "*"
+    "selenium-standalone": "*",
+    "webdriverio": "*"
   }
 }
