@@ -10,7 +10,8 @@
     "gulp-jshint": "*",
     "gulp-webserver": "*",
     "jshint": "*",
-    "node-qunit-phantomjs": "*",
-    "phantomjs": "*",
+    "mocha": "*",
+    "gulp-mocha": "*",
+    "selenium-standalone": "*"
   }
 }

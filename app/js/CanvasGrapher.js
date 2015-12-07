@@ -1,6 +1,6 @@
 /**
  * @file CanvasGrapher.js Handles graphing onto the CanvasGrapher
- * @author 
+ * @author
  */
 
 // The y-coords of the graph
@@ -45,20 +45,8 @@ function clearCanvas() {
  * @returns {bool} returns true if plotable, false otherwise
  */
 function checkIfPlottable() {
-    var count = 0;
-
-    for (var x in orbitals) {
-        count++;
-    }
-
     // Make it always plottable
     return true;
-
-    if (count >= 1) {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 /**
