@@ -7,6 +7,10 @@ var clean = require('gulp-clean');
 var qunit = require('node-qunit-phantomjs');
 var documentation = require('gulp-documentation');
 var jshint = require('gulp-jshint');
+var selenium = require('selenium-standalone');
+var mocha = require('gulp-mocha');
+
+var stream = null;
 
 gulp.task('test', function() {
     gulp.src('test/*')
@@ -77,10 +81,40 @@ gulp.task('clean', function() {
 });
 
 gulp.task('run', function() {
-    gulp.src('build')
+    stream = gulp.src('build')
         .pipe(webserver({
-            open: true
-            }));
+            open: false
+        }));
 });
+
+gulp.task('selenium', function(done) {
+    selenium.install({
+        logger: function(message) {}
+    }, function(err) {
+        if (err) {
+            return done(err);
+        }
+
+        selenium.start(function(err, child) {
+            if (err) {
+                return done(err);
+            }
+            selenium.child = child;
+            done();
+        });
+    });
+});
+
+gulp.task('sel-start', ['run', 'selenium'], function() {
+    return gulp.src('test/ui_tests.js')
+        .pipe(mocha());
+});
+
+gulp.task('sel-test', ['sel-start'], function() {
+    selenium.child.kill();
+    if (stream) {
+        stream.emit('kill');
+    }
+})
 
 gulp.task('default', ['clean', 'build', 'download']);

@@ -8,11 +8,11 @@
 <script src="js/fonts/helvetiker_regular.typeface.js"></script>
 
 <body>
-
+    <title>ChemVis</title>
     <div style="padding:10px; float:left;">
         <div style="padding:10px">
             <label>Select layout: </label>
-            <select onchange="updateMolecule(this.value)">
+            <select id="selectionBox" onchange="updateMolecule(this.value)">
                 <option value="oct">Octahedral</option>
                 <option value="tetra">Tetrahedral</option>
                 <option value="square">Square Planar</option>
@@ -47,7 +47,7 @@
 
     <div style="float:right">
         <img id="img" src="img/oct.png" style="height:120px; width:auto; padding:10px"></img>
-        <p id="tag" style="font-family: verdana; font-size: 70%">Octahedral Complex<br>Energy Diagram</p>
+        <p id="tag" style="font-family: verdana; font-size: 70%">Octahedral complex<br>energy diagram</p>
     </div>
 
 </body>

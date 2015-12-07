@@ -147,5 +147,8 @@ QUnit.test("Canvas Grapher Test", function(assert) {
 
     assert.ok(getOrbitalByName(ligTestName).toString() == ligTestFull.toString(), "getOrbitalByName correct");
 
+    updatePos(1000, 0);
+    var expected = (1000 - lowerRange) / ((upperRange - lowerRange) / 100);
+    assert.ok(points[0] == expected, "updatePos working correctly");
 
 });
