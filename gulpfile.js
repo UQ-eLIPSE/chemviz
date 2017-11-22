@@ -36,7 +36,7 @@ gulp.task('build', ['clean'], function() {
 
 gulp.task('docs', function() {
     gulp.src('app/js/*.js')
-        .pipe(documentation({ format: 'html'}))
+        .pipe(documentation('html'))
         .pipe(gulp.dest('doc'))
 });
 
