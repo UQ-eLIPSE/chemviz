@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "author": "",
   "dependencies": {
-    "gulp": "*",
-    "gulp-clean": "*",
-    "gulp-documentation": "*",
-    "gulp-download": "*",
-    "gulp-jshint": "*",
-    "gulp-webserver": "*",
-    "jshint": "*",
-    "mocha": "*",
-    "gulp-mocha": "*",
-    "selenium-standalone": "*",
-    "webdriverio": "*"
+    "documentation": "5.3.3",
+    "gulp": "3.9.1",
+    "gulp-clean": "0.3.2",
+    "gulp-documentation": "3.2.1",
+    "gulp-download": "0.0.1",
+    "gulp-jshint": "2.0.4",
+    "gulp-mocha": "4.3.1",
+    "gulp-webserver": "0.9.1",
+    "jshint": "2.9.5",
+    "mocha": "4.0.1",
+    "selenium-standalone": "6.11.0",
+    "webdriverio": "4.9.9"
   }
 }

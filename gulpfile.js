@@ -48,25 +48,25 @@ gulp.task('download', ['clean', 'build'], function() {
     download("https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.js")
         .pipe(gulp.dest('build/js/threejs'));
 
-    download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js")
+    download("https://raw.githubusercontent.com/mrdoob/three.js/r73/examples/js/controls/OrbitControls.js")
         .pipe(gulp.dest('build/js/threejs'));
 
-    download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/utils/FontUtils.js")
+    download("https://raw.githubusercontent.com/mrdoob/three.js/r73/examples/js/utils/FontUtils.js")
         .pipe(gulp.dest('build/js/threejs'));
 
-    download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/geometries/TextGeometry.js")
+    download("https://raw.githubusercontent.com/mrdoob/three.js/r73/examples/js/geometries/TextGeometry.js")
         .pipe(gulp.dest('build/js/threejs'));
 
-    download("https://raw.githubusercontent.com/mrdoob/three.js/master/src/extras/geometries/TorusGeometry.js")
+    download("https://raw.githubusercontent.com/mrdoob/three.js/r73/src/extras/geometries/TorusGeometry.js")
         .pipe(gulp.dest('build/js/threejs'));
 
-    download("https://raw.githubusercontent.com/mrdoob/three.js/master/LICENSE")
+    download("https://raw.githubusercontent.com/mrdoob/three.js/r73/LICENSE")
         .pipe(gulp.dest('build/js/threejs'));
 
-    download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/LICENSE")
+    download("https://raw.githubusercontent.com/mrdoob/three.js/r73/examples/fonts/LICENSE")
         .pipe(gulp.dest('build/js/fonts'));
 
-    download("https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/helvetiker_regular.typeface.js")
+    download("https://raw.githubusercontent.com/mrdoob/three.js/r73/examples/fonts/helvetiker_regular.typeface.js")
         .pipe(gulp.dest('build/js/fonts'));
 });
 
