@@ -32,6 +32,9 @@ gulp.task('build', ['clean'], function() {
     gulp.src("app/index.html")
         .pipe(gulp.dest('build'));
 
+    gulp.src("app/main.css")
+        .pipe(gulp.dest('build'));
+
 });
 
 gulp.task('docs', function() {

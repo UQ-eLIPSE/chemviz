@@ -1,58 +1,79 @@
 <!doctype html>
-<script src="js/Molecules.js"></script>
-<script src="js/threejs/three.min.js"></script>
-<script src="js/threejs/TorusGeometry.js"></script>
-<script src="js/threejs/OrbitControls.js"></script>
-<script src="js/threejs/TextGeometry.js"></script>
-<script src="js/threejs/FontUtils.js"></script>
-<script src="js/fonts/helvetiker_regular.typeface.js"></script>
 
-<body>
-    <title>ChemVis</title>
-    <div style="padding:10px; float:left;">
-        <div style="padding:10px">
-            <label>Select layout: </label>
-            <select id="selectionBox" onchange="updateMolecule(this.value)">
-                <option value="oct">Octahedral</option>
-                <option value="tetra">Tetrahedral</option>
-                <option value="square">Square Planar</option>
-            </select>
+<html>
+    <head>
+        <title>ChemVis</title>
 
+        <link rel="stylesheet" href="main.css">
+
+        <script src="js/Molecules.js"></script>
+        <script src="js/threejs/three.min.js"></script>
+        <script src="js/threejs/TorusGeometry.js"></script>
+        <script src="js/threejs/OrbitControls.js"></script>
+        <script src="js/threejs/TextGeometry.js"></script>
+        <script src="js/threejs/FontUtils.js"></script>
+        <script src="js/fonts/helvetiker_regular.typeface.js"></script>
+    </head>
+
+    <body>
+        <div class="vertical" style="padding:10px; float: left;">
+            <p>
+                Choose between different geometries by selecting from the dropdown below.
+                <br>
+                As you move the ligand slider observe what happens with atomic orbital images.
+            </p>
+            <div style="padding:10px">
+                <label>Select layout: </label>
+                <select id="selectionBox" onchange="updateMolecule(this.value)">
+                    <option value="oct">Octahedral</option>
+                    <option value="tetra">Tetrahedral</option>
+                    <option value="square">Square Planar</option>
+                </select>
+
+            </div>
+            <div>
+                <button id="toggleField" type="button" class="button" style="width: 200px" onClick="toggleCircles()">Toggle Ligands</button>
+            </div>
+            <div>
+                <input id="slider" style="width: 200px; height: 50px" disabled type="range" min="1000" max="4000" step="20" value="3000" oninput="updateCircles(this.value)">
+            </div>
+            <div>
+                <button type="button" class="button" style="width: 200px" onClick="resetView()">Reset View</button>
+            </div>
         </div>
-        <div>
-            <button id="toggleField" type="button" style="float: left; width: 200px" onClick="toggleCircles()">Toggle Ligands</button>
-        </div>
-        <div>
-            <input id="slider" style="float: left; width: 200px; height: 50px" disabled type="range" min="1000" max="4000" step="20" value="3000" oninput="updateCircles(this.value)">
-        </div>
-        <div>
-            <button type="button" style="float: left; width: 200px" onClick="resetView()">Reset View</button>
-        </div>
-    </div>
 
 
-    <div style="float:right">
-        <!-- Draw the buttons for each orbital -->
-        <div id="buttons">
-            <button id="0" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('0', 'z^2')">d<sub>z<sup>2</sup></sub></button>
-            <button id="1" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('1', 'x^2 - y^2')">d<sub>x<sup>2</sup> - y<sup>2</sup></sub></button>
-            <button id="2" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('2', 'xy')">d<sub>xy</sub></button>
-            <button id="3" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('3', 'yz')">d<sub>yz</sub></button>
-            <button id="4" style="background-color:white; width:100px" type="button" onClick="lookupAndCreate('4', 'xz')">d<sub>xz</sub></button>
+        <div style="float:right">
+            <!-- Draw the buttons for each orbital -->
+            <div id="buttons">
+                <button id="0" class="button" type="button" onClick="lookupAndCreate('0', 'z^2')">d<sub>z<sup>2</sup></sub></button>
+                <button id="1" class="button" type="button" onClick="lookupAndCreate('1', 'x^2 - y^2')">d<sub>x<sup>2</sup> - y<sup>2</sup></sub></button>
+                <button id="2" class="button" type="button" onClick="lookupAndCreate('2', 'xy')">d<sub>xy</sub></button>
+                <button id="3" class="button" type="button" onClick="lookupAndCreate('3', 'yz')">d<sub>yz</sub></button>
+                <button id="4" class="button" type="button" onClick="lookupAndCreate('4', 'xz')">d<sub>xz</sub></button>
+            </div>
+            <div id="canvasDiv">
+                <canvas id="canvas" width="514" height="100" style="border:1px solid #000000;"></canvas>
+            </div>
         </div>
-        <div id="canvasDiv">
-            <canvas id="canvas" width="514" height="100" style="border:1px solid #000000;"></canvas>
+
+        <div style="float:right">
+            <img id="img" src="img/oct.png" style="height:120px; width:auto; padding:10px"></img>
+            <p id="tag" style="font-size: 70%">Octahedral complex<br>energy diagram</p>
         </div>
-    </div>
 
-    <div style="float:right">
-        <img id="img" src="img/oct.png" style="height:120px; width:auto; padding:10px"></img>
-        <p id="tag" style="font-family: verdana; font-size: 70%">Octahedral complex<br>energy diagram</p>
-    </div>
+        <div class="description">
+            <p>
+                Use the mouse to rotate the complex.
+                <br>
+                Click on the coloured orbital buttons at the top-right to show a representation of the orbital on the complex.
+            </p>
+        </div>
 
-</body>
+    </body>
 
-<!-- These need to be loaded after the body tag -->
-<script src="js/MoleculeRenderer.js"></script>
-<script src="js/LigantDrawer.js"></script>
-<script src="js/CanvasGrapher.js"></script>
+    <!-- These need to be loaded after the body tag -->
+    <script src="js/MoleculeRenderer.js"></script>
+    <script src="js/LigantDrawer.js"></script>
+    <script src="js/CanvasGrapher.js"></script>
+</html>

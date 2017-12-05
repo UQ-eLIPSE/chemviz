@@ -165,7 +165,7 @@ function createCircles(offset) {
  */
 function createOct(offset) {
     var circles = new THREE.Object3D();
-    var size = 50;
+    var size = 100;
 
     // Create the top and bottom circles
     circles.add(createSingleCircle(0, offset, 0, size, "top"));
@@ -189,7 +189,7 @@ function createOct(offset) {
  */
 function createSquare(offset) {
     var circles = new THREE.Object3D();
-    var size = 50;
+    var size = 100;
 
     // Create the left and right circles
     circles.add(createSingleCircle(offset, 0, 0, size, "right"));
@@ -209,7 +209,7 @@ function createSquare(offset) {
  */
 function createTetra(offset) {
     var circles = new THREE.Object3D();
-    var size = 50;
+    var size = 100;
 
     circles.add(createSingleCircle(offset, offset, offset, size, "top"));
     circles.add(createSingleCircle(-offset, -offset, offset, size, "s2"));
